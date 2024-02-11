@@ -11,7 +11,7 @@ class Book(models.Model):
     author = models.CharField(null=True, max_length=100)
     is_bestselling = models.BooleanField(default=False)
     # slug = models.SlugField(default="", null=False) #harry potter 1 => harry-potter-1
-    slug = models.SlugField(default="", null=False, db_index=True) #harry potter 1 => harry-potter-1
+    slug = models.SlugField(default="", blank=True, null=False, editable=False, db_index=True) #harry potter 1 => harry-potter-1
     #db_index=True => makes the field searching quicker
     #I can make the slug to be the primary key primary_key=True
     
@@ -22,7 +22,7 @@ class Book(models.Model):
         
     def get_absolute_url(self):
         # return reverse("book_detail", args=[self.id])
-        return reverse("book_detail", args=[self.slug])
+        return reverse("book-detail", args=[self.slug])
     
     def __str__(self):
         return f"{self.title} ({self.rating})"
