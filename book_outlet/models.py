@@ -4,10 +4,21 @@ from django.urls import reverse
 from django.utils.text import slugify
 
 # Create your models here.
+class Country(models.Model):
+    name = models.CharField(max_length=50)
+    code = models.CharField(max_length=2)
+
 class Address(models.Model):
     street = models.CharField(max_length=50)
     postal_code = models.CharField(max_length=5)
     city = models.CharField(max_length=50)
+    
+    def __str__(self):
+        return f"{self.street}, {self.postal_code}, {self.city}"
+    
+    #to change the name address to address entries in admin
+    class Meta: 
+        verbose_name_plural = "Address Entries"
 
 class Author(models.Model):
     first_name = models.CharField(max_length=100)
@@ -33,6 +44,8 @@ class Book(models.Model):
     #editable=False,
     #db_index=True => makes the field searching quicker
     #I can make the slug to be the primary key primary_key=True
+    published_countries = models.ManyToManyField(Country)
+    
     
     # def save(self, *args, **kwargs):
     #     self.slug = slugify(self.title)
